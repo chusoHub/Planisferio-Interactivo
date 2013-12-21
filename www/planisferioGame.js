@@ -114,7 +114,7 @@
 		var iTamaño=0;  //índice para tamaño foto "Grande o Pequeño"
 		var iMascara=0; //índice para "0=Mostrar o 1=NoMostrar" máscara
 		var iNocturno=0; //Índice para modo nocturno No=0; Si=1;
-		var iJuego=0; //Índice para jugar No=0; Si=1;
+		var iJuego=0; //Índice para jugar No=0; Jugando=1; Practicando=2;
 		var MatrizPlanisferio; //Matriz para cargar nombres de los archivos de las fotos del planisferio
 		var MatrizMascara; //Matriz para cargar nombres de los archivos de las fotos de las máscaras
 		var MatrizConstelaciones; //Matriz para localizar las constelaciones en coordenadas polares
@@ -649,37 +649,16 @@ $( "#botDefault" ).bind( "vclick", function() {
 
 $( "#botJuego" ).bind( "vclick", function() {
  $('#botCerrar').trigger('click')
- acabaJuego();
- //1 es jugando 0 es no jugando 2 es entrenando
-	if (iJuego==1){
-		//iJuego=0;
-		//sjugando=false;
-		//acabaJuego();
-		//en vez de cerrarlo lo reinicio
-		acabaJuego();
-		disparaJuego();
-	}else{
-		//sjugando=true;
-		iJuego=1;
-		disparaJuego();
-	};
+	acabaJuego();
+	iJuego=1;
+	disparaJuego();
 });
 
 $( "#botEntrena" ).bind( "vclick", function() {
  $('#botCerrar').trigger('click')
- acabaJuego();
- //1 es jugando 0 es no jugando 2 es entrenando
-	if (iJuego==2){
-		//iJuego=0;
-		//sjugando=false;
-		//acabaJuego();
-		//en vez de cerrarlo lo reinicio
-		disparaJuego();
-	}else{
-		//sjugando=true;
-		iJuego=2;
-		disparaJuego();
-	};
+	acabaJuego();
+	iJuego=2;
+	disparaJuego();
 });
 
 
@@ -929,7 +908,7 @@ function disparaJuego(){
 			pantalla3=function(){};
 			pantallat=function(){};
 			presentaNivel();
-		}, 1000)
+		}, 2500)
 	
 	
 	
@@ -938,7 +917,7 @@ function disparaJuego(){
 
 function acabaJuego(){
 	//sjugando=false;
-	iJuego=0;
+	//iJuego=0;
 	pantalla3=function(){};
 	pantallat=function(){};
 	clearTimeout(juegoEspera);
@@ -1006,7 +985,6 @@ function conseguido(){
 
 
 function presentaNivel(){
-
 	vdesafio=iNivel+2;
 	vtimejuego=28 + 2*iNivel ;
 	pantallaNivel()
