@@ -141,6 +141,52 @@
 		var vTestigo;
 		
 		
+		
+		
+		//Vars para manejar el ranking
+		var txtSingEspera;
+		var userplanis=' ';
+		var userlevel=0;
+		var MatRanking = new Array(5);
+		var iPos=0;
+		var faltaGrabar=0; //0 no hay presentar grabar 1 si hay que presentar grabar
+		
+		//localStorage.clear();
+		//Download Local estorage
+		MatRanking[0]=new Array (2);
+		MatRanking[0][0]=localStorage.getItem('userplanis0') || 'empty';
+		MatRanking[0][1]=localStorage.getItem('levelplanis0') || 0;
+		MatRanking[1]=new Array (2);
+		MatRanking[1][0]=localStorage.getItem('userplanis1') || 'empty';
+		MatRanking[1][1]=localStorage.getItem('levelplanis1') || 0;
+		MatRanking[2]=new Array (2);
+		MatRanking[2][0]=localStorage.getItem('userplanis2') || 'empty';
+		MatRanking[2][1]=localStorage.getItem('levelplanis2') || 0;
+		MatRanking[3]=new Array (2);
+		MatRanking[3][0]=localStorage.getItem('userplanis3') || 'empty';
+		MatRanking[3][1]=localStorage.getItem('levelplanis3') || 0;
+		MatRanking[4]=new Array (2);
+		MatRanking[4][0]=localStorage.getItem('userplanis4') || 'empty';
+		MatRanking[4][1]=localStorage.getItem('levelplanis4') || 0;
+		
+		
+	//alert(MatRanking[0][0]+MatRanking[0][1]+MatRanking[1][0]+MatRanking[1][1]+MatRanking[2][0]+MatRanking[2][1]+MatRanking[3][0]+MatRanking[3][1]+MatRanking[4][0]+MatRanking[4][1])
+		
+		//Upload Local estorage
+		//localStorage.clear();
+		//localStorage.setItem("userplanis0", MatRanking[0][0]);
+		//localStorage.setItem("levelplanis0", MatRanking[0][1]);
+		//localStorage.setItem("userplanis1", MatRanking[1][0]);
+		//localStorage.setItem("levelplanis1", MatRanking[1][1]);
+		//localStorage.setItem("userplanis2", MatRanking[2][0]);
+		//localStorage.setItem("levelplanis2", MatRanking[2][1]);
+		//localStorage.setItem("userplanis3", MatRanking[3][0]);
+		//localStorage.setItem("levelplanis3", MatRanking[3][1]);
+		//localStorage.setItem("userplanis4", MatRanking[4][0]);
+		//localStorage.setItem("levelplanis4", MatRanking[4][1]);
+
+		
+		
 		//Matriz para cargar nombres de los archivos de las fotos del planisferio
 		//La primera dimensión corresponde a los nombres 0=Bold; 1=Normal; 2=NoMostrar; (iNombres)
 		//La segunda dimensión corresponde a las líneas 0=Bold; 1=Normal; 2=NoMostrar;
@@ -512,7 +558,14 @@
 				};	
 		};
 	//$(document).ready(function($){
+
+	
 $(document).on("pageinit","#pantalla",function(){
+
+		//$("#xSignRanking").click();
+		$("#popSignking").popup( "close" );
+		$("#BSignRanking").hide();
+		
 		$('#pantallac').append( '<canvas id="c" style="position: absolute;">Your browser does not support the canvas element.</canvas>' );
 		c = document.getElementById('c');
 		ctx = c.getContext('2d');
@@ -532,6 +585,11 @@ $(document).on("pageinit","#pantalla",function(){
 		$('#pantallac').append( '<div id="divBotJuego" style="position:absolute;height:0"></div>');
 		pantalla3=function(){};
 
+	
+		
+	
+		
+		
 		DimensionPosicionFotos ();
 	 $( window ).on('resize',function() {DimensionPosicionFotos ()});
 	//document.addEventListener('mousedown',function(e){
@@ -661,10 +719,52 @@ $( "#botEntrena" ).bind( "vclick", function() {
 	disparaJuego();
 });
 
+$( "#botRanking" ).bind( "vclick", function() {
+ //$('#botCerrar').trigger('click');
+	$.mobile.changePage($("#pantalla2"));
+	$("#rankfield00").text(MatRanking[0][0]);
+	$("#rankfield01").text(MatRanking[0][1]);
+	$("#rankfield10").text(MatRanking[1][0]);
+	$("#rankfield11").text(MatRanking[1][1]);
+	$("#rankfield20").text(MatRanking[2][0]);
+	$("#rankfield21").text(MatRanking[2][1]);
+	$("#rankfield30").text(MatRanking[3][0]);
+	$("#rankfield31").text(MatRanking[3][1]);
+	$("#rankfield40").text(MatRanking[4][0]);
+	$("#rankfield41").text(MatRanking[4][1]);
 
 });
 
 
+});
+
+/*
+$(document).on("pageinit","#pantalla2",function(){
+ $('#pantalla2c').append( '<div class="ui-grid-a">'+
+    '<div class="ui-block-a" style="width:20%" ><div class="ui-bar ui-bar-c" style="height:2em">POSICIÓN</div></div>          '+
+    '<div class="ui-block-b" style="width:60%" ><div class="ui-bar ui-bar-c" style="height:2em">NOMBRE</div></div>            '+
+    '<div class="ui-block-c" style="width:20%" ><div class="ui-bar ui-bar-c" style="height:2em">NIVEL</div></div>             '+
+    '<div class="ui-block-a" style="width:20%" ><div class="ui-bar ui-bar-c" style="height:2em">1</div></div>                 '+
+    '<div class="ui-block-b" style="width:60%" ><div id="rankfield00" class="ui-bar ui-bar-c" style="height:2em"></div></div>  '+
+    '<div class="ui-block-c" style="width:20%" ><div id="rankfield01" class="ui-bar ui-bar-c" style="height:2em"></div></div>  '+
+    '<div class="ui-block-a" style="width:20%" ><div class="ui-bar ui-bar-c" style="height:2em">2</div></div>                 '+
+    '<div class="ui-block-b" style="width:60%" ><div id="rankfield10" class="ui-bar ui-bar-c" style="height:2em">'+MatRanking[1][0]+'</div></div>  '+
+    '<div class="ui-block-c" style="width:20%" ><div id="rankfield11" class="ui-bar ui-bar-c" style="height:2em">'+MatRanking[1][1]+'</div></div>  '+
+    '<div class="ui-block-a" style="width:20%" ><div class="ui-bar ui-bar-c" style="height:2em">3</div></div>                 '+
+    '<div class="ui-block-b" style="width:60%" ><div id="rankfield20" class="ui-bar ui-bar-c" style="height:2em">'+MatRanking[2][0]+'</div></div>  '+
+    '<div class="ui-block-c" style="width:20%" ><div id="rankfield21" class="ui-bar ui-bar-c" style="height:2em">'+MatRanking[2][1]+'</div></div>  '+
+    '<div class="ui-block-a" style="width:20%" ><div class="ui-bar ui-bar-c" style="height:2em">4</div></div>                 '+
+    '<div class="ui-block-b" style="width:60%" ><div id="rankfield30" class="ui-bar ui-bar-c" style="height:2em">'+MatRanking[3][0]+'</div></div>  '+
+    '<div class="ui-block-c" style="width:20%" ><div id="rankfield31" class="ui-bar ui-bar-c" style="height:2em">'+MatRanking[3][1]+'</div></div>  '+
+    '<div class="ui-block-a" style="width:20%" ><div class="ui-bar ui-bar-c" style="height:2em">5</div></div>                 '+
+    '<div class="ui-block-b" style="width:60%" ><div id="rankfield40" class="ui-bar ui-bar-c" style="height:2em">'+MatRanking[4][0]+'</div></div>  '+
+    '<div class="ui-block-c" style="width:20%" ><div id="rankfield41" class="ui-bar ui-bar-c" style="height:2em">'+MatRanking[4][1]+'</div></div>  '+
+    
+    '</div>'
+    )
+
+});
+*/
 function DimensionPosicionFotos () {
 	   imageobj = new Image();
 	   imageobj2 = new Image();
@@ -852,6 +952,7 @@ function animaLoop () {
 
 
 function disparaJuego(){
+
 	pantalla3=function(){};
 	pantallat=function(){};
 	$('#divBotJuego').append( '<a href="#" id="BotJuegoCerr" style="position:relative;float:right;">Delete</a>');
@@ -859,6 +960,7 @@ function disparaJuego(){
 	$( "#BotJuegoCerr" ).bind( "vclick", function() {
 			iJuego=0;
 			acabaJuego();
+			
 	});
 	$( "#BotJuegoReno" ).bind( "vclick", function() {
 			acabaJuego();
@@ -870,7 +972,7 @@ function disparaJuego(){
 	iMascara=1;
 	DimensionPosicionFotos ();
 	iNivel=1;
-	vtimejuego=30;
+	//vtimejuego=30;
 	
 	borrapantalla3();
 	borrapantallat();
@@ -929,9 +1031,10 @@ function acabaJuego(){
 	//$( "#c3" ).remove();
 	borrapantalla3();
 	borrapantallat();
-	//DimensionPosicionFotos ();
+	
 };
 function gameOver(){
+
 		clearTimeout(juegoEspera);
 		clearTimeout(txtBorraEspera);
 		clearInterval(juegoLoop);
@@ -952,6 +1055,11 @@ function gameOver(){
 		ctx3.fillText('OVER', 0, ctx3.canvas.height/4);
 		};
 		pantalla3();
+		//$("#popSignRanking").popup( "close" );
+		if ((iNivel-1)>MatRanking[4][1] && iJuego==1){
+				faltagrabar=0;
+				SignRanking();	
+		};
 		
 		 
 };
@@ -987,6 +1095,10 @@ function conseguido(){
 function presentaNivel(){
 	vdesafio=iNivel+2;
 	vtimejuego=28 + 2*iNivel ;
+	//vdesafio=3;
+	//vtimejuego=10;
+	
+	
 	pantallaNivel()
 	//Rellena constelaciones a preguntar
 	ConstJuego=secuenciaUnica(vdesafio,MatrizConstelaciones.length);
@@ -1030,8 +1142,8 @@ function presentaNivel(){
 		
 		if (vmsecondinc>0 && vmsecondinc<300){
 			e.preventDefault()
-			mousex=e.pageX-c.offsetLeft-Scentrorot[0]+ $('#pantallaG').scrollLeft();
-			mousey=e.pageY-c.offsetTop-Scentrorot[1]+ $('#pantallaG').scrollTop();
+			mousex=e.pageX-c.offsetLeft-Scentrorot[0]+ $('#pantalla').scrollLeft();
+			mousey=e.pageY-c.offsetTop-Scentrorot[1]+ $('#pantalla').scrollTop();
 			//Se normaliza el radio respecto al radio del círculo de estrellas del planisferio 
 			//                       para tamaño grande 800x800 el radio es 337.5px  multiplicado por el cambio de escala
 			//                       para tamaño grande 400x400 el radio es 168.8px  multiplicado por el cambio de escala
@@ -1218,6 +1330,83 @@ function pantallaNivel(){
 	}
 	pantalla3();
 }
+
+function SignRanking(){
+	//$('#popSignRanking').dialog('open'); 
+	 //$('#popSignRanking').dialog('close');
+	 iPos=0;
+	 for (iPos=0; (iNivel-1) <= MatRanking[iPos][1];iPos++){
+	 };
+	 
+	 switch(iPos) {
+				case 0:
+				  textposicion='primera'; 
+				  break;
+				case 1:
+				  textposicion='segunda'; 
+				  break;
+				case 2:
+				  textposicion='tercera'; 
+				  break;
+				case 3:
+				  textposicion='cuarta'; 
+				  break;
+				case 4:
+				  textposicion='quinta'; 
+				  break;
+				//default:
+				  //code to be executed if n is different from case 1 and 2
+				}
+	//$("#xSignRanking").click();
+	$("#textSignRanking").html('<h3>Introduce tú nombre <br/> para aparecer en el Ranking <br/> en '+ textposicion +' posición</h3>');
+	$("#BSignRanking").click(); 
+	
+	$("#popSignRanking").unbind( "popupafteropen" );
+	$("#popSignRanking" ).bind({
+        popupafteropen: function() { $("#nameSignRanking" ).focus(); 
+                                    }
+     });
+	
+     $('#botSignRanking').off('vclick');
+     $( "#botSignRanking" ).on( "vclick", function( event ) {
+
+        $('#botSignRanking').off('vclick');
+        userplanis=$('#nameSignRanking').val();
+        $("#xSignRanking").click(); 
+        
+        for (i=(MatRanking.length-1);i >iPos; i=i-1){
+  
+            MatRanking[i][0]=MatRanking[i-1][0];
+			MatRanking[i][1]=MatRanking[i-1][1];
+		 };
+        MatRanking[iPos][0]=userplanis;
+		MatRanking[iPos][1]=iNivel-1;
+			
+		if(localStorage){
+            //alert('El navegador soporta Local Storage!');
+			//Upload Local estorage
+			localStorage.setItem("userplanis0", MatRanking[0][0]);
+			localStorage.setItem("levelplanis0", MatRanking[0][1]);
+			localStorage.setItem("userplanis1", MatRanking[1][0]);
+			localStorage.setItem("levelplanis1", MatRanking[1][1]);
+			localStorage.setItem("userplanis2", MatRanking[2][0]);
+			localStorage.setItem("levelplanis2", MatRanking[2][1]);
+			localStorage.setItem("userplanis3", MatRanking[3][0]);
+			localStorage.setItem("levelplanis3", MatRanking[3][1]);
+			localStorage.setItem("userplanis4", MatRanking[4][0]);
+			localStorage.setItem("levelplanis4", MatRanking[4][1]);
+		}else{
+             alert('El navegador NO soporta Local Storage!');
+		};
+	
+		//localStorage.clear();
+		//localStorage.removeItem('favoriteflavor');
+		/*
+		alert(MatRanking[0][0]+MatRanking[0][1]+MatRanking[1][0]+MatRanking[1][1]+MatRanking[2][0]+MatRanking[2][1]+MatRanking[3][0]+MatRanking[3][1]+MatRanking[4][0]+MatRanking[4][1])		
+		*/
+		});
+};
+
 function secuenciaUnica(n,nummax){
 	var Vect=new Array(n);
 	var l,fl,m=0;
